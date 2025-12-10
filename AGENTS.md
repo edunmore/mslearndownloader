@@ -6,6 +6,8 @@ This document is designed to help AI agents understand the architecture, purpose
 
 **MS Learn Downloader** is a Python-based tool designed to download learning paths, courses, and modules from Microsoft Learn. It converts the online content into offline-friendly formats: **PDF**, **Markdown**, and **HTML**.
 
+**Primary Use Case:** The tool was built to generate consolidated PDFs for ingestion into **NotebookLM**, enabling customized, AI-driven learning experiences for students and certification candidates.
+
 ## Architecture
 
 The project is structured as a Python package `mslearn_downloader` with a CLI entry point.
