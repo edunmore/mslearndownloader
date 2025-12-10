@@ -24,6 +24,7 @@ This holistic approach helps students prepare for Microsoft certifications more 
 ✅ Generate table of contents with navigation  
 ✅ PDF output with bookmarks for easy navigation  
 ✅ Configurable download options
+✅ **New!** Local Web Interface for easy searching and downloading
 
 ## Installation
 
@@ -47,7 +48,23 @@ pip install -r requirements.txt
 
 ## Quick Start
 
-### Basic Usage
+### 🌐 Web Interface (Recommended)
+
+The easiest way to use the tool is via the new local web interface.
+
+1.  Start the web app:
+    ```bash
+    python web_app.py
+    ```
+2.  Open your browser and navigate to: `http://localhost:5000`
+
+**Features:**
+- Search by keyword, URL, or UID
+- Select multiple items to download
+- Customize output format and folder
+- Visual progress tracking
+
+### 🖥️ Command Line Usage
 
 Download a learning path by URL:
 
