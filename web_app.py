@@ -81,6 +81,7 @@ def run_download_job(job_id, items, output_dir):
 def download():
     data = request.json
     items = data.get('items', [])
+    folder_name = data.get('folder_name', 'download')
     
     if not items:
         return jsonify({'error': 'No items selected'}), 400
@@ -89,7 +90,8 @@ def download():
     
     # Determine output directory
     config = Config()
-    output_dir = config.get('storage.output_dir', './downloads')
+    base_output_dir = config.get('storage.output_dir', './downloads')
+    output_dir = os.path.join(base_output_dir, folder_name)
     
     # Create job entry
     jobs[job_id] = {

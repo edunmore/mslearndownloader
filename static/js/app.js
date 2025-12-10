@@ -111,25 +111,47 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Download Handler
-    downloadBtn.addEventListener('click', async function() {
+    // Download Handler - Open Modal
+    downloadBtn.addEventListener('click', function() {
+        const selectedCheckboxes = document.querySelectorAll('.item-checkbox:checked');
+        if (selectedCheckboxes.length === 0) return;
+
+        // Pre-fill folder name with search term or first item title
+        const searchTerm = searchInput.value.trim();
+        const safeName = searchTerm.replace(/[^a-zA-Z0-9]/g, '_');
+        document.getElementById('downloadPathInput').value = safeName || 'download';
+
+        // Reset UI
+        document.getElementById('downloadConfigStep').classList.remove('d-none');
+        document.getElementById('downloadProgressStep').classList.add('d-none');
+        document.getElementById('downloadFooter').classList.add('d-none');
+        
+        downloadModal.show();
+    });
+
+    // Start Download Handler
+    document.getElementById('startDownloadBtn').addEventListener('click', async function() {
         const selectedCheckboxes = document.querySelectorAll('.item-checkbox:checked');
         const itemsToDownload = Array.from(selectedCheckboxes).map(cb => {
             const index = cb.dataset.index;
             return currentResults[index];
         });
 
-        if (itemsToDownload.length === 0) return;
+        const folderName = document.getElementById('downloadPathInput').value.trim() || 'download';
 
-        // Show Modal
-        downloadModal.show();
+        // Switch to progress view
+        document.getElementById('downloadConfigStep').classList.add('d-none');
+        document.getElementById('downloadProgressStep').classList.remove('d-none');
         resetModal();
 
         try {
             const response = await fetch('/api/download', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: itemsToDownload })
+                body: JSON.stringify({ 
+                    items: itemsToDownload,
+                    folder_name: folderName
+                })
             });
             
             const data = await response.json();
