@@ -257,6 +257,10 @@ This is an unofficial tool. Content downloaded from Microsoft Learn is subject t
 - [MS Learn Catalog API Documentation](https://learn.microsoft.com/en-us/training/support/catalog-api-developer-reference)
 - [Microsoft Learn](https://learn.microsoft.com/)
 
+## Credits
+
+This project was architected by the author but implemented by Claude Sonnet, Codex, and Gemini code agents. No handwritten code in it.
+
 ---
 
 **Version:** 1.0.0  
