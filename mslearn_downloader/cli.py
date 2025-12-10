@@ -101,7 +101,7 @@ def main(url, uid, output_format, output_dir, config_file, no_images, delete_ima
             table.add_column("UID", style="dim")
             table.add_column("Duration (min)", justify="right")
             
-            for item in results[:20]:  # Limit to top 20
+            for item in results:
                 # Determine type label
                 item_type = item.get('type', 'Unknown')
                 if item_type == 'learningPath':
@@ -121,8 +121,6 @@ def main(url, uid, output_format, output_dir, config_file, no_images, delete_ima
                 )
             
             console.print(table)
-            if len(results) > 20:
-                console.print(f"\n[dim]...and {len(results) - 20} more results[/dim]")
             
             if download_all:
                 if not yes and not click.confirm(f"\nDo you want to download all {len(results)} items?"):

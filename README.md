@@ -89,6 +89,23 @@ python main.py --url "..." --output ./my-downloads
 python main.py --url "..." --no-images
 ```
 
+## Web Interface (New!)
+
+A local web interface is available for easier searching and downloading.
+
+1.  Install the additional dependency:
+    ```bash
+    pip install flask
+    ```
+    *(Or run `pip install -r requirements.txt` again)*
+
+2.  Start the web app:
+    ```bash
+    python web_app.py
+    ```
+
+3.  Open your browser and navigate to: `http://localhost:5000`
+
 ## Configuration
 
 Edit `config.yaml` to customize default settings:
