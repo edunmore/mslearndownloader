@@ -138,6 +138,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         const folderName = document.getElementById('downloadPathInput').value.trim() || 'download';
+        const outputFormat = document.getElementById('outputFormatSelect').value;
+        const deleteImages = document.getElementById('deleteImagesCheck').checked;
 
         // Switch to progress view
         document.getElementById('downloadConfigStep').classList.add('d-none');
@@ -150,7 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     items: itemsToDownload,
-                    folder_name: folderName
+                    folder_name: folderName,
+                    output_format: outputFormat,
+                    delete_images: deleteImages
                 })
             });
             
