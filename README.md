@@ -93,6 +93,18 @@ python main.py --url "..." --no-images
 
 A local web interface is available for easier searching and downloading.
 
+### Features
+- **Search**: Find content by keyword, Learning Path URL, or UID.
+- **Unlimited Results**: View all matching items from the catalog.
+- **Batch Download**: Select multiple items to download at once.
+- **Customization**: 
+  - Choose output format (PDF, HTML, Markdown).
+  - Specify a custom subfolder for downloads.
+  - Option to automatically delete images after PDF generation.
+- **Visual Progress**: Track download status with a friendly UI.
+
+### Usage
+
 1.  Install the additional dependency:
     ```bash
     pip install flask
