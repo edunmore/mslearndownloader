@@ -1,0 +1,264 @@
+# MS Learn Downloader
+
+Download Microsoft Learn learning paths as HTML, Markdown, or PDF with all images and content included.
+
+## Features
+
+✅ Download complete learning paths from Microsoft Learn  
+✅ Export to HTML, Markdown, or PDF formats  
+✅ Download and embed all images locally  
+✅ Preserve code blocks and formatting  
+✅ Generate table of contents with navigation  
+✅ PDF output with bookmarks for easy navigation  
+✅ Configurable download options
+
+## Installation
+
+### Prerequisites
+
+- Python 3.8 or higher
+- pip (Python package installer)
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+**Note for PDF generation (Playwright + cairosvg):**
+
+- Install Playwright browsers after dependencies: `python -m playwright install chromium`
+- **Windows**: Install [GTK for Windows](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases) for cairosvg (SVG -> PNG)
+- **macOS**: `brew install cairo pango gdk-pixbuf libffi`
+- **Linux**: `apt-get install libpango-1.0-0 libpangocairo-1.0-0`
+
+## Quick Start
+
+### Basic Usage
+
+Download a learning path by URL:
+
+```bash
+python main.py --url "https://learn.microsoft.com/en-us/training/paths/az-400-work-git-for-enterprise-devops/"
+```
+
+Download by UID:
+
+```bash
+python main.py --uid "learn.az-400-work-git-for-enterprise-devops"
+```
+
+### Choose Output Format
+
+```bash
+# HTML output
+python main.py --url "..." --format html
+
+# Markdown output
+python main.py --url "..." --format markdown
+
+# PDF output (default)
+python main.py --url "..." --format pdf
+
+# Generate all formats
+python main.py --url "..." --format all
+```
+
+### Specify Output Directory
+
+```bash
+python main.py --url "..." --output ./my-downloads
+```
+
+### Skip Image Downloads
+
+```bash
+python main.py --url "..." --no-images
+```
+
+## Configuration
+
+Edit `config.yaml` to customize default settings:
+
+```yaml
+api:
+  locale: "en-us"
+  timeout: 30
+
+download:
+  images: true
+  max_concurrent_downloads: 5
+
+output:
+  default_format: "pdf"
+  create_toc: true
+
+pdf:
+  page_size: "A4"
+  margin: "2cm"
+  include_bookmarks: true
+```
+
+## Command-Line Options
+
+```
+Options:
+  -u, --url TEXT        Learning path URL
+  --uid TEXT           Learning path UID
+  -s, --search TEXT    Search for learning paths by keyword
+  --download-all       Download all found learning paths (use with --search)
+  -f, --format TEXT    Output format: html, markdown, pdf, all (default: pdf)
+  -o, --output TEXT    Output directory (default: ./downloads)
+  -c, --config TEXT    Configuration file path (default: config.yaml)
+  --no-images          Skip downloading images
+  --delete-images      Delete images folder after PDF generation
+  --yes, -y            Skip confirmation prompts
+  --version           Show version
+  --help              Show help message
+```
+
+## Examples
+
+### Example 1: Download AZ-400 DevOps Path as PDF
+
+```bash
+python main.py \
+  --url "https://learn.microsoft.com/en-us/training/paths/az-400-work-git-for-enterprise-devops/" \
+  --format pdf \
+  --output ./az400
+```
+
+### Example 2: Download Multiple Formats
+
+```bash
+python main.py \
+  --uid "learn.az-400-work-git-for-enterprise-devops" \
+  --format all \
+  --output ./complete-download
+```
+
+### Example 3: Quick Markdown Export
+
+```bash
+python main.py \
+  --url "https://learn.microsoft.com/en-us/training/paths/azure-fundamentals/" \
+  --format markdown \
+  --no-images
+```
+
+### Example 4: Search and Bulk Download
+
+Search for "AZ-400" and download all matching learning paths:
+
+```bash
+python main.py --search "AZ-400" --download-all
+```
+
+You can also search for and download entire **Courses** or specific **Modules**:
+
+```bash
+# Download the entire PL-200 Course (includes all learning paths)
+python main.py --search "PL200" --download-all
+
+# Download a specific module
+python main.py --search "Create and manage environments in Dataverse" --download-all
+```
+
+## How It Works
+
+1. **Fetch Metadata**: Uses the MS Learn Catalog API to retrieve learning path structure
+2. **Download Content**: Scrapes module and unit pages for actual content
+3. **Process Images**: Downloads all images and updates references
+4. **Generate Output**: Formats content as HTML, Markdown, or PDF with proper styling
+
+## Project Structure
+
+```
+mslearn/
+├── mslearn_downloader/
+│   ├── __init__.py
+│   ├── api_client.py       # MS Learn API client
+│   ├── content_scraper.py  # HTML content scraper
+│   ├── image_handler.py    # Image downloader
+│   ├── formatters.py       # HTML/Markdown formatters
+│   ├── pdf_formatter.py    # PDF generator
+│   ├── downloader.py       # Main orchestrator
+│   ├── cli.py             # CLI interface
+│   └── config.py          # Configuration manager
+├── config.yaml            # Configuration file
+├── requirements.txt       # Python dependencies
+├── main.py               # Entry point
+└── README.md
+```
+
+## Output Formats
+
+### HTML
+- Single-page HTML with embedded CSS
+- Responsive design
+- Code syntax highlighting
+- Local image references
+
+### Markdown
+- Clean markdown formatting
+- Table of contents with anchor links
+- Compatible with GitHub/GitLab
+- Relative image paths
+
+### PDF
+- Professional layout with bookmarks (Playwright/Chromium)
+- Table of contents
+- Page numbers and headers
+- Embedded images (local files resolved during render)
+- Print-ready format
+
+## Troubleshooting
+
+### Playwright/Chromium issues
+
+If PDF generation fails:
+
+1. Ensure browsers are installed: `python -m playwright install chromium`
+2. Verify Chromium can launch (no group policy blocks on Windows)
+3. Reinstall dependencies: `pip install -r requirements.txt`
+
+### Image Download Failures
+
+- Some images may be behind authentication
+- Check network connectivity
+- Use `--no-images` flag to skip problematic images
+- If you see 404s, the module/unit may have been removed; rerun later or adjust slugs
+
+### Rate Limiting
+
+If you encounter rate limits:
+
+- Adjust `retry_delay` in `config.yaml`
+- Reduce `max_concurrent_downloads`
+
+## Contributing
+
+Contributions are welcome! Feel free to:
+
+- Report bugs
+- Suggest features
+- Submit pull requests
+
+## License
+
+This tool is for educational and personal use. Respect Microsoft Learn's terms of service.
+
+## Disclaimer
+
+This is an unofficial tool. Content downloaded from Microsoft Learn is subject to Microsoft's copyright and terms of use.
+
+## Links
+
+- [MS Learn Catalog API Documentation](https://learn.microsoft.com/en-us/training/support/catalog-api-developer-reference)
+- [Microsoft Learn](https://learn.microsoft.com/)
+
+---
+
+**Version:** 1.0.0  
+**Author:** MS Learn Downloader Project  
+**Last Updated:** December 2025

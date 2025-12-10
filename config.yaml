@@ -1,0 +1,33 @@
+# MS Learn Downloader Configuration
+
+api:
+  base_url: "https://learn.microsoft.com/api/catalog/"
+  content_base_url: "https://learn.microsoft.com"
+  locale: "en-us"
+  timeout: 60
+  retry_attempts: 5
+  retry_delay: 5
+
+download:
+  images: true
+  include_exercises: true
+  include_code_samples: true
+  max_concurrent_downloads: 5
+
+output:
+  default_format: "pdf"  # html, markdown, pdf, all
+  create_toc: true
+  include_metadata: true
+  compress_images: false
+  
+pdf:
+  include_bookmarks: true
+  page_size: "A4"
+  margin: "2cm"
+  font_size: "11pt"
+  syntax_highlighting: true
+  
+storage:
+  output_dir: "./downloads"
+  temp_dir: "./temp"
+  cache_dir: "./cache"
